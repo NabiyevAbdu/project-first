@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
 	"path/filepath"
 	"sync"
 
@@ -32,11 +33,21 @@ func GetConfig() *Config {
 			fmt.Println("Env file path error: ", err)
 		}
 
-		if err := cleanenv.ReadConfig(envFilePath, instance); err != nil {
+		// A local .env file is optional. Hosted services provide configuration
+		// directly through environment variables instead.
+		if _, err := os.Stat(envFilePath); err == nil {
+			if err := cleanenv.ReadConfig(envFilePath, instance); err != nil {
+				log.Printf("failed to read config file: %v", err)
+			}
+		} else if !os.IsNotExist(err) {
+			log.Printf("failed to access config file: %v", err)
+		}
+
+		if err := cleanenv.ReadEnv(instance); err != nil {
 			helpText := "Saidoff - Reading project!"
 			help, _ := cleanenv.GetDescription(instance, &helpText)
 			log.Print(help)
-			fmt.Println("Application is starting with default config")
+			log.Printf("failed to read environment config: %v", err)
 		}
 	})
 	return instance
