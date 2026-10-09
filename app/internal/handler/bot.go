@@ -652,7 +652,7 @@ func (bh *BotHandler) setChatMenuButtonWebApp(chatID int64) {
 	if bh == nil || bh.bot == nil {
 		return
 	}
-	url := "https://sevcooking.yurtal.tech/"
+	url := "https://aesthetic-sawine-b3685f.netlify.app/"
 	menuButton := fmt.Sprintf(`{"type":"web_app","text":"Menu","web_app":{"url":"%s"}}`, url)
 	_, err := bh.bot.MakeRequest("setChatMenuButton", tgbotapi.Params{
 		"chat_id":     strconv.FormatInt(chatID, 10),
@@ -1258,7 +1258,7 @@ func (bh *BotHandler) sendWelcomeMessage(chatID int64) {
 			{
 				{
 					Text:   "🔗 Ochish / Открить / Open",
-					WebApp: &tgWebAppInfo{URL: "https://sevcooking.yurtal.tech/"},
+					WebApp: &tgWebAppInfo{URL: "https://aesthetic-sawine-b3685f.netlify.app/"},
 				},
 			},
 		},
